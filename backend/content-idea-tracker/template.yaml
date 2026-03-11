@@ -1,0 +1,137 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  content-idea-tracker
+
+Parameters:
+  CognitoUserPoolArn:
+    Type: String
+    Description: ARN of the Cognito User Pool used for JWT authorization
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: python3.14
+    Architectures:
+      - x86_64
+  Api:
+    Auth:
+      DefaultAuthorizer: CognitoAuthorizer
+      AddDefaultAuthorizerToCorsPreflight: false
+      Authorizers:
+        CognitoAuthorizer:
+          UserPoolArn: !Ref CognitoUserPoolArn
+    Cors:
+      AllowMethods: "'GET,POST,PATCH,DELETE,OPTIONS'"
+      AllowHeaders: "'Content-Type,Authorization'"
+      AllowOrigin: "'*'"
+
+Resources:
+  CreateIdeaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ContentIdeasTable
+        - S3CrudPolicy:
+            BucketName: !Ref IdeaImagesBucket
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ContentIdeasTable
+          IMAGE_BUCKET_NAME: !Ref IdeaImagesBucket
+      Events:
+        CreateIdeaApi:
+          Type: Api
+          Properties:
+            Path: /ideas
+            Method: post
+        GetUploadUrlApi:
+          Type: Api
+          Properties:
+            Path: /upload-url
+            Method: get
+        OptionsIdeas:
+          Type: Api
+          Properties:
+            Path: /ideas
+            Method: options
+            Auth:
+              Authorizer: NONE
+
+  ListIdeaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ContentIdeasTable
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ContentIdeasTable
+      Events:
+        ListIdeaApi:
+          Type: Api
+          Properties:
+            Path: /ideas
+            Method: get
+
+  UpdateIdeaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ContentIdeasTable
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref ContentIdeasTable
+      Events:
+        UpdateIdeaApi:
+          Type: Api
+          Properties:
+            Path: /ideas/{id}
+            Method: patch
+        DeleteIdeaApi:
+          Type: Api
+          Properties:
+            Path: /ideas/{id}
+            Method: delete
+        OptionsIdeaById:
+          Type: Api
+          Properties:
+            Path: /ideas/{id}
+            Method: options
+            Auth:
+              Authorizer: NONE
+
+  ContentIdeasTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: ContentIdeas
+      PrimaryKey:
+        Name: id
+        Type: String
+
+  IdeaImagesBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - "*"
+            AllowedMethods:
+              - PUT
+              - GET
+              - HEAD
+            AllowedOrigins:
+              - "*"
+            MaxAge: 3000
+
+Outputs:
+  ServerlessApi:
+    Description: API Gateway endpoint URL for Prod stage
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/"

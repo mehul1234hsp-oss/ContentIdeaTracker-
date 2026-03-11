@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statement Wall — Enhanced Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #05050d;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .fake-hero {
+            height: 100vh;
+            background: #f5f4f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #aaa;
+        }
+
+        /* ══ STATEMENT WALL ══ */
+        .statement-wall {
+            position: relative;
+            background: #05050d;
+            min-height: 100vh;
+        }
+
+        .statement-wall::before {
+            content: '';
+            position: fixed;
+            top: 30%;
+            right: 10%;
+            width: 500px;
+            height: 500px;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(ellipse, rgba(232, 51, 74, 0.07) 0%, transparent 65%);
+        }
+
+        .wall-layout {
+            display: flex;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 48px 140px;
+            gap: 70px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* LEFT */
+        .wall-left {
+            flex: 1;
+            padding-top: 80px;
+        }
+
+        .wall-line {
+            font-size: clamp(1.1rem, 1.7vw, 1.4rem);
+            font-weight: 400;
+            color: #2a2a3a;
+            line-height: 1.70;
+            padding: 24px 0;
+            border-bottom: 1px solid #0f0f1a;
+            opacity: 0;
+            transform: translateX(-24px);
+            transition: opacity 0.55s ease, transform 0.55s ease, color 0.35s ease;
+        }
+
+        .wall-line:first-child {
+            border-top: 1px solid #0f0f1a;
+        }
+
+        .wall-line.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .wall-line.active {
+            color: #dde0e8;
+        }
+
+        .wall-line em {
+            font-style: normal;
+            font-weight: 700;
+            color: #E8334A;
+        }
+
+        .wall-line:nth-child(1) {
+            transition-delay: 0.00s
+        }
+
+        .wall-line:nth-child(2) {
+            transition-delay: 0.10s
+        }
+
+        .wall-line:nth-child(3) {
+            transition-delay: 0.20s
+        }
+
+        .wall-line:nth-child(4) {
+            transition-delay: 0.30s
+        }
+
+        .wall-line:nth-child(5) {
+            transition-delay: 0.40s
+        }
+
+        .wall-line:nth-child(6) {
+            transition-delay: 0.50s
+        }
+
+        .wall-closer-block {
+            margin-top: 64px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease 0.55s, transform 0.7s ease 0.55s;
+        }
+
+        .wall-closer-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .wall-divider-line {
+            width: 40px;
+            height: 2px;
+            background: #E8334A;
+            margin-bottom: 32px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease 0.65s;
+        }
+
+        .wall-closer-block.visible .wall-divider-line {
+            transform: scaleX(1);
+        }
+
+        .wall-closer {
+            font-size: clamp(2.4rem, 4.5vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -2.5px;
+            line-height: 1.05;
+        }
+
+        .wall-closer .accent {
+            color: #E8334A;
+        }
+
+        /* RIGHT — sticky */
+        .wall-right {
+            width: 320px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 120px;
+        }
+
+        .post-stage {
+            position: relative;
+            width: 100%;
+            height: 520px;
+        }
+
+        .post-card {
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(22px) rotate(2.5deg) scale(0.95);
+            transition: opacity 0.4s cubic-bezier(0.34, 1.4, 0.64, 1),
+                transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
+            will-change: opacity, transform;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.06);
+        }
+
+        .post-card.active {
+            opacity: 1;
+            transform: translateY(0) rotate(-1.5deg) scale(1);
+        }
+
+        /* ════════════════════════════════
+       INSTAGRAM — pixel-perfect
+    ════════════════════════════════ */
+        .ig-card {
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .ig-topbar {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            gap: 10px;
+        }
+
+        .ig-av-wrap {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            padding: 2px;
+            flex-shrink: 0;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+
+        .ig-av-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 800;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .ig-meta {
+            flex: 1;
+        }
+
+        .ig-username {
+            font-size: 0.77rem;
+            font-weight: 700;
+            color: #111;
+            line-height: 1.2;
+        }
+
+        .ig-location {
+            font-size: 0.65rem;
+            color: #555;
+        }
+
+        .ig-dots {
+            font-size: 1.1rem;
+            color: #111;
+            letter-spacing: 1px;
+        }
+
+        .ig-photo {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        .ig-photo-placeholder {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .ig-actions {
+            padding: 10px 12px 4px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .ig-actions svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .ig-spacer {
+            flex: 1;
+        }
+
+        .ig-likes {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #111;
+            padding: 2px 12px 2px;
+        }
+
+        .ig-caption {
+            font-size: 0.75rem;
+            color: #111;
+            padding: 2px 12px 6px;
+            line-height: 1.5;
+        }
+
+        .ig-caption strong {
+            font-weight: 700
+        }
+
+        .ig-caption .hashtag {
+            color: #003569
+        }
+
+        .ig-comments {
+            font-size: 0.72rem;
+            color: #888;
+            padding: 0 12px 8px;
+        }
+
+        .ig-time {
+            font-size: 0.62rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 0 12px 10px;
+        }
+
+        /* ════════════════════════════════
+       LINKEDIN — pixel-perfect
+    ════════════════════════════════ */
+        .li-card {
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: rgba(0, 0, 0, 0.9);
+        }
+
+        .li-topbar {
+            display: flex;
+            gap: 10px;
+            padding: 14px 14px 0;
+        }
+
+        .li-av {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            object-fit: cover;
+            background: linear-gradient(135deg, #0077b5, #00a0dc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #fff;
+            font-size: 1.1rem;
+            overflow: hidden;
+        }
+
+        .li-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .li-title {
+            font-size: 0.72rem;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .li-meta {
+            font-size: 0.68rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 2px;
+        }
+
+        .li-globe {
+            font-size: 0.75rem;
+        }
+
+        .li-body {
+            font-size: 0.82rem;
+            color: #191919;
+            line-height: 1.65;
+            padding: 12px 14px 10px;
+            flex: 1;
+        }
+
+        .li-see-more {
+            color: #0077b5;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0 14px 12px;
+        }
+
+        .li-reactions {
+            padding: 0 14px 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .li-reaction-icons {
+            display: flex;
+        }
+
+        .li-ri {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            margin-right: -4px;
+        }
+
+        .li-ri.like {
+            background: #0077b5
+        }
+
+        .li-ri.celebrate {
+            background: #44712e
+        }
+
+        .li-ri.insightful {
+            background: #a37200
+        }
+
+        .li-reaction-count {
+            font-size: 0.73rem;
+            color: #555;
+            margin-left: 8px;
+        }
+
+        .li-actions-bar {
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+            padding: 4px 0 4px;
+        }
+
+        .li-action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 8px 4px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+        }
+
+        /* ════════════════════════════════
+       TIKTOK — pixel-perfect
+    ════════════════════════════════ */
+        .tk-card {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+        }
+
+        .tk-video-bg {
+            position: absolute;
+            inset: 0;
+            background: #111;
+        }
+
+        .tk-video-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .tk-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.1) 50%, transparent 100%);
+        }
+
+        .tk-topbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 12px 12px 6px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .tk-top-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .tk-follow-btn {
+            font-size: 0.7rem;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+            padding: 2px 8px;
+            margin-left: 8px;
+        }
+
+        .tk-right-panel {
+            position: absolute;
+            right: 10px;
+            bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .tk-action {
+            text-align: center;
+        }
+
+        .tk-action-icon {
+            font-size: 1.6rem;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+        }
+
+        .tk-action-count {
+            font-size: 0.62rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .tk-av-follow {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff0050, #ff4d4d);
+            border: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #fff;
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        .tk-plus {
+            width: 18px;
+            height: 18px;
+            background: #fe2c55;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 900;
+            margin: -12px auto 0;
+        }
+
+        .tk-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 60px;
+            padding: 0 14px 18px;
+        }
+
+        .tk-user {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .tk-caption-text {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+        }
+
+        .tk-caption-text span {
+            color: #aee;
+        }
+
+        .tk-sound-bar {
+            position: absolute;
+            bottom: 18px;
+            right: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tk-disc {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #222, #555);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        /* ════════════════════════════════
+       TWITTER/X — pixel-perfect
+    ════════════════════════════════ */
+        .tw-card {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            padding: 18px 18px 0;
+            color: #e7e9ea;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .tw-topbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .tw-av {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #1d9bf0, #0052cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #fff;
+            font-size: 1rem;
+            overflow: hidden;
+        }
+
+        .tw-name-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tw-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #e7e9ea;
+        }
+
+        .tw-verified {
+            color: #1d9bf0;
+            font-size: 0.85rem;
+        }
+
+        .tw-handle {
+            font-size: 0.78rem;
+            color: #71767b;
+        }
+
+        .tw-dot {
+            color: #71767b;
+        }
+
+        .tw-time {
+            font-size: 0.78rem;
+            color: #71767b;
+        }
+
+        .tw-body {
+            font-size: 0.9rem;
+            color: #e7e9ea;
+            line-height: 1.65;
+            padding: 8px 0 12px;
+            white-space: pre-line;
+        }
+
+        .tw-body .blue {
+            color: #1d9bf0;
+        }
+
+        .tw-body .tag {
+            color: #1d9bf0;
+        }
+
+        .tw-card-embed {
+            border: 1px solid #2f3336;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .tw-embed-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            background: #1a1a1a;
+        }
+
+        .tw-embed-body {
+            padding: 10px 12px;
+            border-top: 1px solid #2f3336;
+        }
+
+        .tw-embed-domain {
+            font-size: 0.68rem;
+            color: #71767b;
+        }
+
+        .tw-embed-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #e7e9ea;
+        }
+
+        .tw-actions {
+            display: flex;
+            gap: 0;
+            border-top: 1px solid #2f3336;
+            padding: 6px 0 4px;
+            margin: 0 -4px;
+        }
+
+        .tw-act {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 0;
+            font-size: 0.76rem;
+            color: #71767b;
+        }
+
+        .tw-act:hover {
+            color: #1d9bf0;
+        }
+
+        .tw-act svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* ════════ CLOSER ════════ */
+        .fake-next {
+            height: 50vh;
+            background: #f5f4f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="fake-hero">↓ Scroll down ↓</div>
+
+    <section class="statement-wall">
+        <div class="wall-layout">
+
+            <!-- LEFT -->
+            <div class="wall-left">
+                <div class="wall-line" data-card="ig1">For the <em>fitness coach</em> posting workout tips at 5am before
+                    the world wakes up.</div>
+                <div class="wall-line" data-card="li">For the <em>educator</em> turning LinkedIn threads into courses
+                    and reels into lessons.</div>
+                <div class="wall-line" data-card="tk">For the <em>food creator</em> who can cook anything but couldn't
+                    survive without fresh ideas.</div>
+                <div class="wall-line" data-card="tw">For the <em>business founder</em> who has a story to tell but no
+                    time to plan it.</div>
+                <div class="wall-line" data-card="ig2">For the <em>travel vlogger</em> capturing the world one post at a
+                    time.</div>
+                <div class="wall-line" data-card="">For every creator with something real worth saying.</div>
+                <div class="wall-closer-block">
+                    <div class="wall-divider-line"></div>
+                    <h2 class="wall-closer">Content Ideas Tracker<br />was built for <span class="accent">you.</span>
+                    </h2>
+                </div>
+            </div>
+
+            <!-- RIGHT sticky -->
+            <div class="wall-right">
+                <div class="post-stage">
+
+                    <!-- ── Instagram Fitness ── -->
+                    <div class="post-card ig-card" id="card-ig1">
+                        <div class="ig-topbar">
+                            <div class="ig-av-wrap">
+                                <div class="ig-av-inner"
+                                    style="background-image:url('');background:linear-gradient(135deg,#ff6b6b,#ee5a24)">
+                                    FC</div>
+                            </div>
+                            <div class="ig-meta">
+                                <div class="ig-username">fitcoach_daily <span
+                                        style="color:#0095f6;font-size:0.8rem;">✓</span></div>
+                                <div class="ig-location">🏋️ London, UK</div>
+                            </div>
+                            <div class="ig-dots">···</div>
+                        </div>
+                        <img class="ig-photo" src="/ig_fitness.png" alt="Fitness post"
+                            onerror="this.style.display='none';this.nextSibling.style.display='flex'" />
+                        <div class="ig-photo-placeholder"
+                            style="display:none;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)">💪</div>
+                        <div class="ig-actions">
+                            <!-- Heart -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                            <!-- Comment -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            </svg>
+                            <!-- Share -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13" />
+                                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                            </svg>
+                            <div class="ig-spacer"></div>
+                            <!-- Bookmark -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                            </svg>
+                        </div>
+                        <div class="ig-likes">2,847 likes</div>
+                        <div class="ig-caption"><strong>fitcoach_daily</strong> Morning pull-up routine 💪 Idea captured
+                            at 5am, posted by 7am. Consistency is the real cheat code. <span class="hashtag">#fitness
+                                #workout #morningroutine #gains</span></div>
+                        <div class="ig-comments">View all 94 comments</div>
+                        <div class="ig-time">2 hours ago</div>
+                    </div>
+
+                    <!-- ── LinkedIn Educator ── -->
+                    <div class="post-card li-card" id="card-li">
+                        <div class="li-topbar">
+                            <div class="li-av">SC</div>
+                            <div>
+                                <div class="li-name">Sarah Chen <span style="color:#0077b5">✓</span></div>
+                                <div class="li-title">Educator & Course Creator · 12,432 followers</div>
+                                <div class="li-meta">
+                                    <span>2h</span><span class="li-globe">🌐</span>
+                                </div>
+                            </div>
+                            <div
+                                style="margin-left:auto;font-size:0.8rem;color:#0077b5;font-weight:700;white-space:nowrap;padding:0 0 0 8px">
+                                + Follow</div>
+                        </div>
+                        <div class="li-body">I turned a <strong>single LinkedIn idea</strong> into a course that
+                            generated $40k.<br /><br />The thread took 20 mins to write.<br />The course took 3 weeks to
+                            build.<br />The idea took 2 seconds to capture.<br /><br /><strong>That's the part most
+                                creators miss.</strong></div>
+                        <div class="li-see-more">...see more</div>
+                        <div class="li-reactions">
+                            <div class="li-reaction-icons">
+                                <div class="li-ri like">👍</div>
+                                <div class="li-ri celebrate">🎉</div>
+                                <div class="li-ri insightful">💡</div>
+                            </div>
+                            <div class="li-reaction-count">847 · <span style="color:#0077b5">234 comments</span></div>
+                        </div>
+                        <div class="li-actions-bar">
+                            <div class="li-action-btn">👍 Like</div>
+                            <div class="li-action-btn">💬 Comment</div>
+                            <div class="li-action-btn">↗️ Repost</div>
+                            <div class="li-action-btn">✉️ Send</div>
+                        </div>
+                    </div>
+
+                    <!-- ── TikTok Food ── -->
+                    <div class="post-card tk-card" id="card-tk">
+                        <div class="tk-video-bg">
+                            <img src="/tiktok_food.png" alt="Food TikTok" onerror="this.style.display='none'" />
+                        </div>
+                        <div class="tk-gradient"></div>
+                        <div class="tk-topbar">
+                            <div class="tk-top-title">For You</div>
+                        </div>
+                        <div class="tk-right-panel">
+                            <div>
+                                <div class="tk-av-follow">FS</div>
+                                <div class="tk-plus">+</div>
+                            </div>
+                            <div class="tk-action"><span class="tk-action-icon">❤️</span>
+                                <div class="tk-action-count">48.2K</div>
+                            </div>
+                            <div class="tk-action"><span class="tk-action-icon">💬</span>
+                                <div class="tk-action-count">1.2K</div>
+                            </div>
+                            <div class="tk-action"><span class="tk-action-icon">🔖</span>
+                                <div class="tk-action-count">8.9K</div>
+                            </div>
+                            <div class="tk-action"><span class="tk-action-icon">↗️</span>
+                                <div class="tk-action-count">Share</div>
+                            </div>
+                        </div>
+                        <div class="tk-bottom">
+                            <div class="tk-user">@foodwithsophie 🍳</div>
+                            <div class="tk-caption-text">The 10-min pasta that broke my FYP 👀 Recipe in bio!
+                                <span>#cooking #foodtok #easyrecipes</span></div>
+                        </div>
+                        <div class="tk-sound-bar">
+                            <div class="tk-disc">🎵</div>
+                        </div>
+                    </div>
+
+                    <!-- ── Twitter/X Business ── -->
+                    <div class="post-card tw-card" id="card-tw">
+                        <div class="tw-topbar">
+                            <div class="tw-av">MR</div>
+                            <div style="flex:1">
+                                <div class="tw-name-row">
+                                    <span class="tw-name">Marcus Reid</span>
+                                    <span class="tw-verified">✓</span>
+                                </div>
+                                <div style="display:flex;gap:4px;align-items:center">
+                                    <span class="tw-handle">@marcusreid</span>
+                                    <span class="tw-dot">·</span>
+                                    <span class="tw-time">2h</span>
+                                </div>
+                            </div>
+                            <div style="color:#555;font-size:1.1rem">···</div>
+                        </div>
+                        <div class="tw-body">We went from 0 → 10k followers in <span class="blue">90 days</span>.
+
+                            No ads. No viral moment. Just a consistent content pipeline.
+
+                            Here's the exact system we used 🧵
+
+                            (It started with one idea captured at 11pm on a Tuesday) <span
+                                class="tag">#BuildInPublic</span></div>
+                        <div class="tw-actions">
+                            <div class="tw-act">💬 241</div>
+                            <div class="tw-act">🔁 892</div>
+                            <div class="tw-act">❤️ 3.2K</div>
+                            <div class="tw-act">📊 41K</div>
+                            <div class="tw-act">↗️</div>
+                        </div>
+                    </div>
+
+                    <!-- ── Instagram Travel ── -->
+                    <div class="post-card ig-card" id="card-ig2">
+                        <div class="ig-topbar">
+                            <div class="ig-av-wrap" style="background:linear-gradient(45deg,#4facfe,#00f2fe)">
+                                <div class="ig-av-inner" style="background:linear-gradient(135deg,#667eea,#764ba2)">TA
+                                </div>
+                            </div>
+                            <div class="ig-meta">
+                                <div class="ig-username">travelwith_alex <span
+                                        style="color:#0095f6;font-size:0.8rem">✓</span></div>
+                                <div class="ig-location">📍 Santorini, Greece</div>
+                            </div>
+                            <div class="ig-dots">···</div>
+                        </div>
+                        <img class="ig-photo" src="/ig_travel.png" alt="Travel post"
+                            onerror="this.style.display='none';this.nextSibling.style.display='flex'" />
+                        <div class="ig-photo-placeholder"
+                            style="display:none;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364)">🌅</div>
+                        <div class="ig-actions">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            </svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13" />
+                                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                            </svg>
+                            <div class="ig-spacer"></div>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                            </svg>
+                        </div>
+                        <div class="ig-likes">11,204 likes</div>
+                        <div class="ig-caption"><strong>travelwith_alex</strong> That 4am sunrise idea in Santorini?
+                            Captured it instantly. Posted 3 days later. 47k reach. 🌅 <span class="hashtag">#travel
+                                #santorini #contentcreator #greece</span></div>
+                        <div class="ig-time">4 hours ago</div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="fake-next">← Next section →</div>
+
+    <script>
+        const lines = document.querySelectorAll('.wall-line');
+        const cards = document.querySelectorAll('.post-card');
+        const closerBlock = document.querySelector('.wall-closer-block');
+
+        function showCard(id) {
+            cards.forEach(c => c.classList.remove('active'));
+            if (id) { const el = document.getElementById('card-' + id); if (el) el.classList.add('active'); }
+        }
+
+        const sectionObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    lines.forEach(l => l.classList.add('visible'));
+                    closerBlock.classList.add('visible');
+                } else {
+                    lines.forEach(l => { l.classList.remove('visible'); l.classList.remove('active'); });
+                    closerBlock.classList.remove('visible');
+                    showCard(null);
+                }
+            });
+        }, { threshold: 0.08 });
+        sectionObs.observe(document.querySelector('.statement-wall'));
+
+        const lineObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    lines.forEach(l => l.classList.remove('active'));
+                    e.target.classList.add('active');
+                    showCard(e.target.dataset.card);
+                }
+            });
+        }, { rootMargin: '-30% 0px -40% 0px', threshold: 0 });
+
+        lines.forEach(l => lineObs.observe(l));
+    </script>
+
+</body>
+
+</html>

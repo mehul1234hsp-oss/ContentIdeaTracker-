@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design Tokens ── */
+:root {
+  --accent: #E8334A;
+  --accent-hover: #d42d40;
+  --accent-light: #fff0f2;
+  --accent-mid: #ffd6db;
+  --cream: #fdf6f0;
+  --cream-dark: #f5ece4;
+  --white: #ffffff;
+  --border: #ede8e3;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6b6b80;
+  --text-muted: #a0a0b0;
+  --shadow-card: 0 4px 20px rgba(0,0,0,0.06);
+  --shadow-btn: 0 4px 16px rgba(232,51,74,0.18);
+}
+
+/* ── Global Scaling (keeping your existing fix) ── */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+html {
+  font-size: 18px;
+}
+
+@media (min-width: 1536px) {
+  html { font-size: 19px; }
+}
+
+@media (min-width: 1920px) {
+  html { font-size: 20px; }
+}
+
+/* ── Base Styles ── */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--cream);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d0c8c0;
+}

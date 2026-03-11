@@ -1,0 +1,173 @@
+.lp-hero {
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.lp-hero-eye {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #E8334A;
+    margin-bottom: 16px;
+}
+
+.lp-hero h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    font-weight: 900;
+    letter-spacing: -3.5px;
+    color: #0a0a0a;
+    text-align: center;
+    line-height: 1.0;
+}
+
+.lp-hero h1 em {
+    color: #E8334A;
+    font-style: normal;
+}
+
+.lp-hint {
+    margin-top: 48px;
+    font-size: .7rem;
+    color: #c0c0c0;
+    letter-spacing: 1.5px;
+    animation: bob 2.2s ease infinite;
+}
+
+@keyframes bob {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(8px);
+    }
+}
+
+/* ── Sentinel Text Phase ── */
+.lp-sentinel-text h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 900;
+    letter-spacing: -5px;
+    color: #fff;
+    line-height: .92;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* ── Fixed Canvas Intro Panel ── */
+.lp-intro-panel h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 900;
+    letter-spacing: -5px;
+    color: #fff;
+    line-height: .92;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* ── Phase Cards ── */
+.lp-pcard-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 44%;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.lp-pcard {
+    position: absolute;
+    left: 68px;
+    right: 0;
+    top: 50%;
+    will-change: transform, opacity;
+    opacity: 0;
+}
+
+.lp-pnum {
+    font-family: 'Inter', sans-serif;
+    font-size: .62rem;
+    font-weight: 800;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: #E8334A;
+    margin-bottom: 14px;
+}
+
+.lp-ptitle {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.9rem, 3vw, 2.6rem);
+    font-weight: 900;
+    letter-spacing: -2px;
+    color: #fff;
+    line-height: 1.0;
+    margin-bottom: 14px;
+}
+
+.lp-pbody {
+    font-family: 'Inter', sans-serif;
+    font-size: .88rem;
+    color: #aaa;
+    line-height: 1.82;
+    max-width: 310px;
+}
+
+.lp-pline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 26px;
+    padding-top: 26px;
+    border-top: 1px solid #1e1e2a;
+}
+
+.lp-pline-bar {
+    width: 26px;
+    height: 1px;
+    background: #E8334A;
+    flex-shrink: 0;
+}
+
+.lp-pline-text {
+    font-family: 'Inter', sans-serif;
+    font-size: .76rem;
+    color: #6B6B7A;
+    letter-spacing: .3px;
+}
+
+/* ── Spine Dots ── */
+.lp-spine {
+    position: absolute;
+    right: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.lp-sdot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    transition: all .35s;
+}
+
+.lp-sdot-on {
+    background: #E8334A;
+    transform: scale(2.2);
+}

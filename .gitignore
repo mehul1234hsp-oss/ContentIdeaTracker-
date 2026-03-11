@@ -1,0 +1,16 @@
+# Node modules
+frontend/node_modules/
+
+# React environment file (SECRET)
+frontend/.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# SAM build artifacts
+.aws-sam/
+
+# OS junk
+.DS_Store
+Thumbs.db

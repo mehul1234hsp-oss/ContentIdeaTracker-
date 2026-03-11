@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scroll Sections Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --red: #E8334A;
+            --black: #0a0a0a;
+            --gray: #6b6b80;
+            --light: #f5f5f7;
+            --border: #e8e8e8;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fff;
+            color: var(--black);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── DEMO LABEL ── */
+        .demo-label {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--black);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            z-index: 999;
+            opacity: 0.85;
+        }
+
+        /* ═══════════════════════════════════════
+       SECTION 1 — THE HOOK (Pain Point)
+    ═══════════════════════════════════════ */
+        .section-hook {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-hook .eyebrow {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 28px;
+        }
+
+        .section-hook h2 {
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 1.05;
+            max-width: 800px;
+            margin-bottom: 28px;
+        }
+
+        .section-hook h2 .gray {
+            color: #cccccc;
+        }
+
+        .section-hook p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 520px;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        /* Pain pill badges */
+        .pain-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 48px;
+        }
+
+        .pain-pill {
+            padding: 9px 18px;
+            border: 1.5px solid var(--border);
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray);
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .pain-pill .strike {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        /* ═══════════════════════════════════════
+       SECTION 2 — HOW IT WORKS
+    ═══════════════════════════════════════ */
+        .section-how {
+            padding: 120px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-how .label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 16px;
+        }
+
+        .section-how h2 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 72px;
+            max-width: 600px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .step {
+            padding: 40px 32px;
+            border: 1.5px solid var(--border);
+            border-radius: 24px;
+            background: var(--white);
+            transition: box-shadow 0.25s, transform 0.25s;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.07);
+            border-color: rgba(232, 51, 74, 0.2);
+        }
+
+        .step-num {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 18px;
+        }
+
+        .step-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .step h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            font-size: 0.92rem;
+            color: var(--gray);
+            line-height: 1.65;
+        }
+
+        .step .step-quote {
+            margin-top: 20px;
+            padding: 12px 16px;
+            background: var(--light);
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-style: italic;
+            color: #444;
+            border-left: 3px solid var(--red);
+        }
+
+        /* ═══════════════════════════════════════
+       SECTION 3 — FEATURES BENTO GRID
+    ═══════════════════════════════════════ */
+        .section-features {
+            padding: 120px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-features .label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 16px;
+        }
+
+        .section-features h2 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 56px;
+            max-width: 560px;
+        }
+
+        .bento {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto;
+            gap: 20px;
+        }
+
+        .bento-card {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: 24px;
+            padding: 36px 32px;
+            transition: all 0.25s;
+            cursor: default;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.07);
+            border-color: rgba(232, 51, 74, 0.18);
+        }
+
+        .bento-card.wide {
+            grid-column: span 2;
+            background: var(--light);
+        }
+
+        .bento-card.dark {
+            background: var(--black);
+            color: white;
+            border-color: var(--black);
+        }
+
+        .bento-card.dark p {
+            color: #aaa;
+        }
+
+        .bento-emoji {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .bento-card h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .bento-card p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* Kanban mini preview inside wide card */
+        .mini-kanban {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .mini-col {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .mini-col-title {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .mini-card {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 7px 10px;
+            margin-bottom: 6px;
+            font-size: 0.72rem;
+            color: #444;
+            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+
+        .mini-card.red {
+            border-left: 3px solid var(--red);
+        }
+
+        .mini-card.green {
+            border-left: 3px solid #16a34a;
+        }
+
+        .mini-card.blue {
+            border-left: 3px solid #2563eb;
+        }
+
+        /* ═══════════════════════════════════════
+       SECTION 4 — FINAL CTA
+    ═══════════════════════════════════════ */
+        .section-cta {
+            min-height: 60vh;
+            background: var(--black);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 40px;
+            color: white;
+        }
+
+        .section-cta h2 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .section-cta h2 span {
+            color: var(--red);
+        }
+
+        .section-cta p {
+            font-size: 1.05rem;
+            color: #888;
+            margin-bottom: 44px;
+            max-width: 440px;
+            line-height: 1.7;
+        }
+
+        .cta-btn {
+            padding: 16px 48px;
+            border-radius: 999px;
+            border: none;
+            background: var(--white);
+            color: var(--black);
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            letter-spacing: -0.3px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cta-btn:hover {
+            background: var(--red);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(232, 51, 74, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="demo-label">📐 Scroll Sections Demo — not the live app</div>
+
+    <!-- ══ SECTION 1: THE HOOK ══ -->
+    <section class="section-hook">
+        <p class="eyebrow">The Problem</p>
+        <h2>
+            Your best ideas<br />
+            <span class="gray">deserve better than a notes app.</span>
+        </h2>
+        <p>
+            Great content doesn't get lost — it gets <em>forgotten</em>.
+            Between DMs, sticky notes, voice memos and 3am thoughts,
+            your content pipeline is scattered everywhere.
+        </p>
+        <div class="pain-pills">
+            <div class="pain-pill">📝 <span class="strike">Notes app graveyard</span></div>
+            <div class="pain-pill">📱 <span class="strike">Idea lost in DMs</span></div>
+            <div class="pain-pill">🧠 <span class="strike">"I'll remember it later"</span></div>
+            <div class="pain-pill">📄 <span class="strike">Random Google Docs</span></div>
+            <div class="pain-pill">⏰ <span class="strike">Missed posting windows</span></div>
+        </div>
+    </section>
+
+    <!-- ══ SECTION 2: HOW IT WORKS ══ -->
+    <section style="padding: 120px 0; border-bottom: 1px solid var(--border);">
+        <div class="section-how" style="border-bottom: none;">
+            <p class="label">How It Works</p>
+            <h2>From shower thought<br />to published post.</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">Step 01</div>
+                    <div class="step-icon" style="background: #fff5f6;">💡</div>
+                    <h3>Capture</h3>
+                    <p>Idea strikes at 2am? Add it in 5 seconds. No friction, no friction, no forgetting.</p>
+                    <div class="step-quote">"I have so many ideas but I forget them before morning."</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">Step 02</div>
+                    <div class="step-icon" style="background: #f0f7ff;">📋</div>
+                    <h3>Organize</h3>
+                    <p>Drag ideas across your Kanban board. Know exactly what's Idea, Draft, or Ready to go.</p>
+                    <div class="step-quote">"I never know which ideas I've actually followed up on."</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">Step 03</div>
+                    <div class="step-icon" style="background: #f0fff4;">🚀</div>
+                    <h3>Publish</h3>
+                    <p>Mark it done. Build your posting habit. Watch your consistency compound over time.</p>
+                    <div class="step-quote">"I want to post consistently but my content is all over the place."</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ SECTION 3: FEATURES BENTO ══ -->
+    <section style="padding: 120px 0; border-bottom: 1px solid var(--border);">
+        <div class="section-features" style="border-bottom: none;">
+            <p class="label">Features</p>
+            <h2>Built for how<br />creators actually think.</h2>
+            <div class="bento">
+
+                <!-- Wide card with mini kanban preview -->
+                <div class="bento-card wide">
+                    <h3>One board. Every platform.</h3>
+                    <p>LinkedIn, Instagram, YouTube, TikTok — all your ideas in one place, organized by status.</p>
+                    <div class="mini-kanban">
+                        <div class="mini-col">
+                            <div class="mini-col-title">💡 Idea</div>
+                            <div class="mini-card red">LinkedIn thought leadership post</div>
+                            <div class="mini-card">IG reel about morning routine</div>
+                        </div>
+                        <div class="mini-col">
+                            <div class="mini-col-title">✍️ Draft</div>
+                            <div class="mini-card blue">YouTube script: productivity tips</div>
+                            <div class="mini-card">TikTok trending audio idea</div>
+                        </div>
+                        <div class="mini-col">
+                            <div class="mini-col-title">✅ Published</div>
+                            <div class="mini-card green">Thread: 10 career lessons</div>
+                            <div class="mini-card green">Facebook community update</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dark card -->
+                <div class="bento-card dark">
+                    <div class="bento-emoji">⚡</div>
+                    <h3>5-second capture</h3>
+                    <p>Add an idea before it vanishes. No account switching, no friction, no fumbling.</p>
+                </div>
+
+                <!-- Normal card -->
+                <div class="bento-card">
+                    <div class="bento-emoji">🎯</div>
+                    <h3>Platform-aware</h3>
+                    <p>Tag ideas by platform so you always know what fits where — Reel vs. Thread vs. Tutorial.</p>
+                </div>
+
+                <!-- Normal card -->
+                <div class="bento-card">
+                    <div class="bento-emoji">📊</div>
+                    <h3>See your pipeline</h3>
+                    <p>At a glance: how many ideas are sitting idle? How many drafts need finishing?</p>
+                </div>
+
+                <!-- Normal card -->
+                <div class="bento-card">
+                    <div class="bento-emoji">🔄</div>
+                    <h3>Drag & drop workflow</h3>
+                    <p>Move ideas forward with a drag. Your board, your rules, your rhythm.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ SECTION 4: FINAL CTA ══ -->
+    <section class="section-cta">
+        <h2>Your content<br /><span>deserves a system.</span></h2>
+        <p>Stop losing ideas. Start building the content habit that actually sticks.</p>
+        <button class="cta-btn">Start Organizing Free →</button>
+    </section>
+
+</body>
+
+</html>
