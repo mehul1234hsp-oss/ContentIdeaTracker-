@@ -175,13 +175,14 @@ export default function LandingPage({ onGetStarted, onSignIn }) {
       <StatementWall />
 
       {/* COMBINED — HOW IT WORKS + CTA */}
-      <section style={{ background: "#ffffff", padding: "100px 80px 0" }}>
+      <section style={{ background: "#ffffff", padding: "40px 80px 0", position: "relative", zIndex: 2 }}>
+
 
         {/* Label + Heading */}
         <p ref={addFadeRef} className="lp-fade" style={{ textAlign: "center", fontSize: "0.78rem", fontWeight: 700, color: "#E8334A", textTransform: "uppercase", letterSpacing: "3px", marginBottom: "14px" }}>
           How It Works
         </p>
-        <h2 ref={addFadeRef} className="lp-fade" style={{ fontFamily: "Nunito, sans-serif", fontSize: "2.8rem", fontWeight: 900, color: "#111", textAlign: "center", letterSpacing: "-1.5px", marginBottom: "56px", lineHeight: 1.15 }}>
+        <h2 ref={addFadeRef} className="lp-fade" style={{ fontFamily: "Nunito, sans-serif", fontSize: "2.8rem", fontWeight: 900, color: "#111", textAlign: "center", letterSpacing: "-1.5px", marginBottom: "24px", lineHeight: 1.15 }}>
           From idea to published —<br />
           <span style={{ color: "#E8334A" }}>in 3 steps.</span>
         </h2>
@@ -197,7 +198,7 @@ export default function LandingPage({ onGetStarted, onSignIn }) {
         <div ref={addFadeRef} className="lp-fade" style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr auto 1fr", alignItems: "stretch", maxWidth: "1100px", margin: "0 auto" }}>
 
           {/* Card 1 — white */}
-          <div className="step-card" style={{ background: "#fff", border: "1.5px solid #efefef", borderRadius: 20, padding: "36px 32px", boxShadow: "0 8px 32px rgba(0,0,0,0.07)" }}>
+          <div className="step-card" style={{ background: "#fff", border: "1.5px solid #efefef", borderRadius: 20, padding: "24px 28px", boxShadow: "0 8px 32px rgba(0,0,0,0.07)" }}>
             <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#E8334A", color: "#fff", fontFamily: "Nunito, sans-serif", fontWeight: 900, fontSize: "1.2rem", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>1</div>
             <h3 style={{ fontFamily: "Nunito, sans-serif", fontWeight: 900, fontSize: "1.25rem", color: "#111", marginBottom: 10, letterSpacing: "-0.5px" }}>Add Your Idea</h3>
             <p style={{ fontSize: "0.88rem", color: "#777", lineHeight: 1.7, margin: 0 }}>Click New Idea, write your content concept and pick your platform. Done in seconds.</p>
@@ -208,7 +209,7 @@ export default function LandingPage({ onGetStarted, onSignIn }) {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0 20px", color: "#E8334A", fontSize: "1.6rem", fontWeight: 900 }}>→</div>
 
           {/* Card 2 — BLACK (highlighted) */}
-          <div className="step-card step-card-dark" style={{ background: "#111", border: "1.5px solid #111", borderRadius: 20, padding: "36px 32px", boxShadow: "0 16px 48px rgba(0,0,0,0.22)" }}>
+          <div className="step-card step-card-dark" style={{ background: "#111", border: "1.5px solid #111", borderRadius: 20, padding: "24px 28px", boxShadow: "0 16px 48px rgba(0,0,0,0.22)" }}>
             <div style={{ width: 48, height: 48, borderRadius: "50%", border: "2px solid #E8334A", color: "#E8334A", fontFamily: "Nunito, sans-serif", fontWeight: 900, fontSize: "1.2rem", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>2</div>
             <h3 style={{ fontFamily: "Nunito, sans-serif", fontWeight: 900, fontSize: "1.25rem", color: "#fff", marginBottom: 10, letterSpacing: "-0.5px" }}>Move to Draft</h3>
             <p style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.7, margin: 0 }}>When you're ready to work on it, move it to Draft. Your board stays clean and organized.</p>
@@ -219,7 +220,7 @@ export default function LandingPage({ onGetStarted, onSignIn }) {
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0 20px", color: "#E8334A", fontSize: "1.6rem", fontWeight: 900 }}>→</div>
 
           {/* Card 3 — white */}
-          <div className="step-card" style={{ background: "#fff", border: "1.5px solid #efefef", borderRadius: 20, padding: "36px 32px", boxShadow: "0 8px 32px rgba(0,0,0,0.07)" }}>
+          <div className="step-card" style={{ background: "#fff", border: "1.5px solid #efefef", borderRadius: 20, padding: "24px 28px", boxShadow: "0 8px 32px rgba(0,0,0,0.07)" }}>
             <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#E8334A", color: "#fff", fontFamily: "Nunito, sans-serif", fontWeight: 900, fontSize: "1.2rem", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>3</div>
             <h3 style={{ fontFamily: "Nunito, sans-serif", fontWeight: 900, fontSize: "1.25rem", color: "#111", marginBottom: 10, letterSpacing: "-0.5px" }}>Mark as Published</h3>
             <p style={{ fontSize: "0.88rem", color: "#777", lineHeight: 1.7, margin: 0 }}>Once your content is live, mark it published. Track your consistency over time.</p>
@@ -228,7 +229,7 @@ export default function LandingPage({ onGetStarted, onSignIn }) {
         </div>
 
         {/* Black CTA strip — flush at the bottom of the section */}
-        <div style={{ background: "#111", marginTop: 72, padding: "44px 80px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
+        <div style={{ background: "#111", marginTop: 40, padding: "24px 80px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
           <div>
             <h2 style={{ fontFamily: "Nunito, sans-serif", fontSize: "2rem", fontWeight: 900, color: "#fff", letterSpacing: "-1px", marginBottom: 6 }}>Ready to organize your content?</h2>
             <p style={{ fontSize: "0.95rem", color: "rgba(255,255,255,0.5)", margin: 0 }}>Join creators who never lose a content idea again.</p>
@@ -238,7 +239,7 @@ export default function LandingPage({ onGetStarted, onSignIn }) {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ background: "#0a0a0a", padding: "36px 80px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <footer style={{ background: "#0a0a0a", padding: "16px 80px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.35)" }}>Plan. Draft. Publish. Repeat.</div>
       </footer>
 

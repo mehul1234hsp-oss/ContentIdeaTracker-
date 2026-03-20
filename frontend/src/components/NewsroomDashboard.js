@@ -198,9 +198,7 @@ export default function NewsroomDashboard({ ideas = [], onStatusChange, onUpdate
                         display: "flex", alignItems: "center", justifyContent: "center",
                         fontSize: ".85rem", boxShadow: `0 0 14px ${C.aGlow}`
                     }}>⚡</div>
-                    <span style={{ fontWeight: 900, fontSize: "0.9rem", letterSpacing: "-.3px" }} contentEditable suppressContentEditableWarning>
-                        Your <span style={{ color: C.accent }}>Brand</span>
-                    </span>
+            
                 </div>
 
                 <div style={{ flex: 1 }} />
@@ -276,12 +274,7 @@ export default function NewsroomDashboard({ ideas = [], onStatusChange, onUpdate
                             onClick={() => { if (hero) selectIdea(activeHero); }}
                             onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(232,51,74,.3)"; e.currentTarget.style.boxShadow = `0 0 40px rgba(232,51,74,.07)` }}
                             onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = "none" }}>
-                            {/* dim bg number */}
-                            <div style={{
-                                position: "absolute", right: -8, top: -16, fontSize: "7rem",
-                                fontWeight: 900, color: "rgba(0,0,0,0.04)",
-                                lineHeight: 1, pointerEvents: "none", userSelect: "none"
-                            }}>01</div>
+
 
                             {activeHero ? (
                                 <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", height: "100%" }}>
